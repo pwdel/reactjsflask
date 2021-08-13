@@ -16,6 +16,60 @@ The project structure advised in [1] is the following:
 
 ![](/readme_img/starterprojectstructure.png)
 
+### Building Out Simple Flask App
+
+```
+om flask import Flask, send_from_directory
+from flask_restful import Api, Resource, reqparse
+from flask_cors import CORS #comment this on deployment
+from api.HelloApiHandler import HelloApiHandler
+
+# create instance of the flask class
+# static_url is to specify a different path for static files
+# static_folder points to the build directory of our react project
+app = Flask(__name__, static_url_path='', static_folder='frontend/build')
+# gets rid of CORS error when making API requests to different domain
+CORS(app) #comment this on deployment
+# put api handler in sub-directory called API
+api = Api(app)
+
+# @app.route decorator tells Flask which URL should trigger our serve(path) function.
+@app.route("/", defaults={'path':''})
+def serve(path):
+    return send_from_directory(app.static_folder,'index.html')
+
+# put api in sub-directory called api
+api.add_resource(apihandler, '/flask/hello')
+```
+
+
+### CORS Errors
+
+At this current stage (before deployment), React is running on port 3000 and Flask on port 5000. Hence, when React is making a request to Flask backend, this CORS error pops up.
+
+
+### API Handler
+
+
+
+### Installing and Working with Flask
+
+#### Running flask
+
+```
+flask run
+```
+
+#### Checking Installation
+
+http://127.0.0.1:5000/flask/hello
+
+
+#### requirements.txt File
+
+flask-restful - for api handling
+flask_cors
+flask
 
 #  References
 
